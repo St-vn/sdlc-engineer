@@ -1,0 +1,31 @@
+intent: mvp
+audience: public
+eu-consumers: false
+team-size: solo
+auth: email
+monetization: none
+regulated: none
+deployment-target: cloud
+stack:
+  language: typescript
+  framework: next.js
+  database: postgres
+  test-runner: vitest
+  ci: github-actions
+
+# Derived fields (do not edit manually)
+security-tier: standard
+launch-tier: standard
+research-tracks:
+  market: true
+  technical: true
+  compliance: false
+
+sub-skill-gates:
+  execute-parallel: false
+  coordinate: false
+  qa-browser: true
+  launch-readiness: true
+  arch-decompose: false
+  deploy-observability: true
+  deploy-rollback: false

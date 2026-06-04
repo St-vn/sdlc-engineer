@@ -1,62 +1,116 @@
 ---
 name: tasks
-description: Produces a work breakdown structure from a completed spec and architecture. Converts user stories and design components into implementable engineering tasks with clear acceptance, dependencies, and effort estimates. Use when the user asks "break this into tasks", "what do I implement first?", "create a sprint plan", "give me the implementation checklist", "what's the order of work?", or has a complete (or partial) spec+design and wants to start building. Tier-aware: hackathon tasks are a simple ordered checklist; MVP tasks are a groomed sprint backlog; scaling tasks include story-point estimates, dependencies, and team assignments.
+description: Produces a TDD-formatted work breakdown structure from spec and design artifacts. Each task specifies the failing test to write first, the RED confirmation command, the implementation goal, and the GREEN confirmation command. Reads cross-session learnings to surface anti-patterns. Use when the user asks "break this into tasks", "what do I implement first?", "create the task plan", or as part of /implement orchestration.
 ---
 
-# /tasks — work breakdown structure
+# /tasks — TDD work breakdown structure
 
-Converts requirements and architecture into implementable engineering tasks. The output is an ordered, dependency-aware task list the team can pick up and execute.
+Converts requirements and architecture into implementable engineering tasks using the TDD task format. The output is a dependency-ordered plan file where every task starts with a failing test.
 
-## Tier-appropriate output
+## Pre-flight
 
-| Tier | Output |
-|:---|:---|
-| Hackathon | Ordered checklist: "1. Scaffold project. 2. Build X. 3. Wire Y. 4. Deploy." Timebox estimates in hours. |
-| MVP | Sprint backlog: tasks grouped by sprint, each with a 1-3 line description, rough effort (S/M/L), and dependency note |
-| Scaling | Full WBS: tasks grouped by domain, numbered IDs (TASK-001), story-point estimates, blocked-by links, suggested owner role |
+1. Project config in session context? If not, run /configure first.
+2. Spec artifacts exist (`docs/sdlc-engineer/spec/`)? If not, prompt to run /spec first.
+3. Design artifacts exist (`docs/sdlc-engineer/design/`)? If not, prompt to run /design first.
+4. Read `docs/sdlc-engineer/learnings.jsonl` if it exists:
+   - Surface entries of type `anti-pattern` relevant to this stack/domain
+   - Surface entries of type `failed-approach` to add to task implementation notes as "Avoid: ..."
 
-## Procedure
+## Config gates applied
 
-### Step 1 — Collect inputs
-User stories (from `/spec`), architecture components (from `/design`). Work with whatever exists; if design hasn't run, use the user stories alone and flag that architectural tasks will be discovered during implementation.
+```
+auth: none → suppress auth tasks
+monetization: none → suppress payment tasks
+team-size: solo → sequential task list (no parallel wave assignment)
+intent: hackathon → flat list, minimal metadata
+intent: production-saas → full dependency graph, parallelization analysis
+```
 
-### Step 2 — Identify the mandatory foundation tasks
-Every system has a set of tasks that must come first because everything else depends on them. Common ones:
-- Project scaffolding / repo setup
-- CI pipeline (even a minimal one at hackathon tier)
-- Auth / identity (most features gate on this)
-- Core data model / migrations
-- API skeleton / routing layer
+## Task format (mandatory — no exceptions)
 
-Surface these explicitly as Phase 0.
+Every task MUST include all of the following fields:
 
-### Step 3 — Map stories to implementation tasks
-For each user story, break down into implementation-level tasks:
-- Data layer: schema changes, migrations, repository methods
-- Business logic: service layer functions, validation rules
-- API: endpoint definitions, request/response contracts
-- UI: components, state management, API calls
-- Tests: unit tests for business logic, integration tests for API, E2E for critical flows
+```markdown
+### Task N: [Name]
 
-Not every story needs all layers — calibrate to the system's actual architecture.
+**AC reference:** [US-001 AC-003] — which acceptance criterion this satisfies
+**NFRs in scope:** [PERF-001, SEC-002] — which NFRs this task must not violate
+**Complexity:** XS | S | M | L | XL
+**Depends on:** Task N-1, Task N-3 (or "none")
+**File set:** exact list of files this task touches (parallelization boundary)
 
-### Step 4 — Sequence by dependencies
-Order tasks so that each one can be completed without waiting for another:
-- Mark explicit blockers: "TASK-004 blocked by TASK-001 (auth must exist)"
-- Identify parallelizable work: "TASK-010 and TASK-011 can be done simultaneously by two devs"
-- Surface the critical path: what's the sequence of tasks that determines the minimum possible completion time?
+**Failing test to write first:**
+```[language]
+[complete, runnable test code]
+```
 
-### Step 5 — MoSCoW cut (MVP tier)
-Verify that only Must-have user stories have tasks in Sprint 1. Should-haves in Sprint 2. Could-haves parked. Flag any task drift.
+**RED command:** `[exact command to run the test]`
+**Expected RED output:** [what failure message proves the test is correctly wired]
 
-### Step 6 — Output
-Tasks in tier-appropriate format. End with: the critical path (what must complete for anything else to proceed), the first task to start (typically scaffolding + CI), and recommended next step: `/implement` for deployment planning.
+**Implementation goal:** [one sentence — what the implementation does, not how]
+
+**Minimal implementation:**
+```[language]
+[complete implementation code]
+```
+
+**GREEN command:** `[exact command to confirm tests pass]`
+**Verification step:** `[command to run full suite and confirm no regressions]`
+
+**Commit:** `feat: Task N — [name] (satisfies [AC reference])`
+```
+
+## Dependency graph
+
+After all tasks are defined:
+
+1. Build the dependency graph (which tasks block which)
+2. Topological sort → wave assignments
+3. Mark parallelizable tasks (file sets must be disjoint)
+4. Identify critical path
+
+```
+Wave 0: Task 1, Task 2 (no dependencies)
+Wave 1: Task 3 (depends on Task 1), Task 4 (depends on Task 2)
+Wave 2: Task 5 (depends on Task 3 and Task 4)
+Critical path: Task 1 → Task 3 → Task 5
+```
+
+Parallelization note: Tasks are parallelizable iff their file sets are disjoint AND no task depends on another in the same wave.
+
+## Output
+
+Save plan to: `docs/sdlc-engineer/plans/YYYY-MM-DD-[feature].md`
+
+Plan file header:
+```markdown
+# [Feature] Task Plan
+Generated: YYYY-MM-DD
+AC coverage: [US-001 through US-004]
+NFRs in scope: [list]
+Estimated waves: N
+Parallelizable tasks: N of M
+
+## Anti-patterns to watch (from learnings.jsonl)
+[entries surfaced from learnings, or "none recorded"]
+
+## Tasks
+[task list]
+
+## Dependency graph
+[wave assignments + critical path]
+```
+
+## The RED confirmation rule
+
+If the RED step is skipped, or if the test passes before implementation is written: **STOP**. Flag it as a test integrity failure. Do not continue. Restart the task with a properly failing test.
+
+This is enforced. Persuasion scenarios ("I already know what to implement", "the test is obviously right") do not override this rule.
 
 ## Anti-patterns flagged
-- **"Build the perfect architecture first"** — flag as analysis paralysis; recommend delivering a thin vertical slice end-to-end before polishing each layer
-- **Tasks with no acceptance** — every task should have a one-line definition of done
-- **No testing tasks** — if no test tasks exist, add them; tests are not optional extras
 
-## Audience adaptation
-- Novice: explain what a sprint is, why the foundation comes first, what story points mean; use the S/M/L estimate scale rather than story points
-- Senior: numbered task list with explicit deps and rough sizing; skip explanations
+- Tasks with no AC reference → add it or flag as scope creep
+- "Test the above" without actual test code → not a valid task step
+- File sets that overlap between tasks assigned to the same wave → move one to next wave
+- Implementation written before RED confirmed → flag as test integrity failure
+```
