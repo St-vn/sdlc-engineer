@@ -29,14 +29,17 @@ Anyone, but especially:
 
 | Command | Purpose |
 | :--- | :--- |
+| `/configure` | **Run first.** Captures project intent in ≤8 questions and writes `.sdlc/project.yml`. Gates all downstream skill behavior (security tier, launch tier, research tracks). |
 | `/consult` | Open-ended entry point. "I have an idea, where do I start?" Assesses your context (maturity tier, what you have, what you need) and recommends a next step. |
 | `/decide` | Focused decision support. "Monolith or microservices?" "Which database?" "REST vs GraphQL?" Brings the framework, not just interrogation. |
 | `/elicit` | Captures stakeholder inputs and domain constraints. The disciplined version of "what do we want this thing to do?" |
 | `/analyze` | Feasibility, tradeoff evaluation, dependency mapping over elicited inputs. |
+| `/research` | Live pre-planning research across three tracks: market validation, technical stack health, and compliance. Never answers from training data — every claim cites a live result. |
 | `/spec` | Orchestrator. Chains user stories → acceptance criteria → NFRs → SRS → traceability matrix at tier-appropriate depth. |
 | `/design` | Orchestrator. Chains use cases → components → sequence → ADRs → C4 diagrams. |
-| `/tasks` | Work breakdown structure: from spec+design to implementable units. |
-| `/implement` | Orchestrator. CI/CD pipeline definition + observability plan + tier-aware gating. |
+| `/tasks` | TDD work breakdown structure: from spec+design to dependency-ordered tasks, each with a failing test and RED/GREEN confirmation commands. |
+| `/implement` | Orchestrator. Full implementation loop: pre-flight → research → task planning → per-task TDD execution → CI verification. |
+| `/ship` | Orchestrator. Shipping sequence after implementation completes: security audit → QA → monitoring → benchmark → deploy → launch-readiness → doc sync. |
 
 ### Granular sub-commands (for power users; also work as refiners)
 
@@ -82,23 +85,28 @@ sdlc-engineer/
 │   ├── decision-frameworks.md       ← Modular Monolith First, Conway's Law, MoSCoW, etc.
 │   └── educational-layer.md         ← verbosity dial, jargon detection, audience modes
 ├── skills/                          ← one folder per skill, each with SKILL.md
+│   ├── configure/                   ← must-run-first project configuration
 │   ├── consult/
 │   ├── decide/
 │   ├── elicit/
 │   ├── analyze/
+│   ├── research/                    ← live pre-planning research (market/stack/compliance)
 │   ├── spec/
 │   ├── design/
-│   ├── tasks/
-│   ├── implement/
+│   ├── tasks/                       ← TDD work breakdown structure
+│   ├── implement/                   ← full implementation orchestrator
+│   ├── ship/                        ← shipping orchestrator
 │   ├── req-*/                       ← requirements granular skills
 │   ├── arch-*/                      ← architecture granular skills
 │   └── deploy-*/                    ← deployment granular skills
-└── commands/                        ← slash command shortcuts (Claude Code)
-    └── *.md
+├── commands/                        ← slash command shortcuts (Claude Code)
+│   └── *.md
+└── .claude/
+    └── settings.json                ← Layer 0 hooks (SessionStart, PreToolUse, Stop)
 ```
 
 ## Status
 
-**v1.0 — complete.** All 27 skills and 26 slash commands built. See `CHANGELOG.md` for the full feature list.
+**v1.1 — active development.** 29 skills and 26 slash commands. Added `/configure`, `/research`, `/ship`; rewrote `/tasks` and `/implement` as full orchestrators; added Layer 0 hooks (`SessionStart`, `PreToolUse`, `Stop`). See `CHANGELOG.md` for the full feature list.
 
 Submit to the official marketplace at `platform.claude.com/plugins/submit` after replacing `your-github-username` in `.claude-plugin/plugin.json` and `README.md` with your actual GitHub username.
