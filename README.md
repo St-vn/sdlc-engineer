@@ -29,6 +29,7 @@ Anyone, but especially:
 
 | Command | Purpose |
 | :--- | :--- |
+| `/navigator` | **Start here.** Opens the master SDLC blueprint, outlines the lifecycle loop, and details behavioral rules. |
 | `/configure` | **Run first.** Captures project intent in ≤8 questions and writes `.sdlc/project.yml`. Gates all downstream skill behavior (security tier, launch tier, research tracks). |
 | `/consult` | Open-ended entry point. "I have an idea, where do I start?" Assesses your context (maturity tier, what you have, what you need) and recommends a next step. |
 | `/decide` | Focused decision support. "Monolith or microservices?" "Which database?" "REST vs GraphQL?" Brings the framework, not just interrogation. |
@@ -39,39 +40,90 @@ Anyone, but especially:
 | `/design` | Orchestrator. Chains use cases → components → sequence → ADRs → C4 diagrams. |
 | `/tasks` | TDD work breakdown structure: from spec+design to dependency-ordered tasks, each with a failing test and RED/GREEN confirmation commands. |
 | `/implement` | Orchestrator. Full implementation loop: pre-flight → research → task planning → per-task TDD execution → CI verification. |
+| `/audit` | **Orchestrator.** Adversarial spec and code auditing sequence: chains logic spec analysis → static code red-teaming checks. |
+| `/pressure-test` | **Orchestrator.** Environmental stress validation: load generation (k6) → local container lifecycle & network degradation (Pumba/Toxiproxy). |
 | `/ship` | Orchestrator. Shipping sequence after implementation completes: security audit → QA → monitoring → benchmark → deploy → launch-readiness → doc sync. |
 
 ### Granular sub-commands (for power users; also work as refiners)
 
 | Domain | Commands |
 | :--- | :--- |
+| Research | `/research-market`, `/research-tech`, `/research-compliance` |
 | Requirements | `/req-user-stories`, `/req-acceptance`, `/req-nfr`, `/req-srs`, `/req-rtm` |
 | Architecture | `/arch-use-cases`, `/arch-components`, `/arch-sequence`, `/arch-adr`, `/arch-c4`, `/arch-decompose`, `/arch-complexity` |
+| Auditing | `/audit-spec`, `/audit-code` |
+| Reliability | `/pressure-test-load`, `/pressure-test-chaos` |
 | Deployment | `/deploy-tier`, `/deploy-cicd`, `/deploy-observability`, `/deploy-secrets-audit`, `/deploy-release-check`, `/deploy-rollback` |
 
 Every granular command runs in two modes:
 - **Producer mode** — no prior input, generate from scratch.
 - **Refiner mode** — prior artifact provided, detect methodology gaps, soft-warn, refine, return improved version with explanation of changes.
 
+---
+
+## Quick Start (Getting Started Guide)
+
+To avoid "vibe coding" and establish procedural discipline, drive the agent using the sequential stages of the Software Development Lifecycle (SDLC):
+
+1. **Initialize**: Run `/configure` to define your stack, security tier, and compliance targets. This generates `.sdlc/project.yml`.
+2. **Research**: Run `/research` (or `/research-market`, `/research-tech`, or `/research-compliance` separately) to scan dependencies for CVEs, check regulations, and gather competitor details.
+3. **Specify**: Run `/spec` to generate Gherkin (Given-When-Then) Acceptance Criteria and precise Non-Functional Requirements (NFRs).
+4. **Design**: Run `/design` to generate system C4 diagrams, sequence diagrams, and ADRs.
+5. **Decompose**: Run `/tasks` to generate a failing-test-first TDD task checklist.
+6. **Implement**: Run `/implement` to automatically loop through task implementation, context-isolated subagent reviews, and testing.
+7. **Audit (Adversarial)**: Run `/audit` to verify specification logic consistency using DIR contradiction proofs and check for codebase vulnerabilities using custom Semgrep patterns.
+8. **Pressure Test**: Run `/pressure-test` to stress-test your system using k6 load generators under Pumba and Toxiproxy container/network failures.
+9. **Ship & Deploy**: Run `/ship` to run security audits, browser testing, monitor setups, and push code.
+
+> [!TIP]
+> If you or the agent ever lose track of the workflow, run `/navigator` to open the interactive cheat sheet and behavioral guidelines.
+
+---
+
+
 ## Installation
 
-### Claude Code
+Install the skills and commands based on your agent environment:
 
+### Claude Code
+Copy the skills, commands, and shared references either to the project root directory or globally:
 ```bash
-# Project scope
+# Option A: Project scope
 cp -r sdlc-engineer/skills/* .claude/skills/
 cp -r sdlc-engineer/commands/* .claude/commands/
 cp -r sdlc-engineer/shared .claude/skills/sdlc-engineer-shared
 
-# OR user scope (available across all projects)
+# Option B: User global scope
 cp -r sdlc-engineer/skills/* ~/.claude/skills/
 cp -r sdlc-engineer/commands/* ~/.claude/commands/
 cp -r sdlc-engineer/shared ~/.claude/skills/sdlc-engineer-shared
 ```
 
-### Claude.ai
+### Codex CLI
+1. Clone the repository to your local directory.
+2. Link the skills directory to your local configuration:
+```bash
+codex link --skills ./skills --commands ./commands
+```
 
-Package each skill folder under `skills/` as a `.skill` file (zip the folder) and upload via Settings → Skills. The `shared/` folder content is referenced by the SKILL.md files via relative paths; for Claude.ai installs, paste the contents of the relevant `shared/*.md` file into the SKILL.md as inline reference, or upload `shared/` as its own auxiliary skill that the others reference.
+### OpenCode
+For OpenCode environments, add the plugin definition to your `.opencode` config directory:
+```bash
+cp -r sdlc-engineer/skills/* .opencode/skills/
+cp -r sdlc-engineer/commands/* .opencode/commands/
+```
+
+### Antigravity IDE
+1. Open Settings → Plugins.
+2. Choose "Install local plugin" and point to the `sdlc-engineer` root directory, or link the `skills/` directory to the app data workspace:
+```powershell
+Copy-Item -Recurse -Force .\skills\* C:\Users\<Username>\.gemini\antigravity-ide\mcp\sdlc-engineer\skills\
+```
+
+### Claude.ai (Web Interface)
+Package each skill folder under `skills/` as a `.skill` file (zip the folder) and upload via **Settings → Skills**. Since `shared/` content is referenced via relative paths, for web installs, inline the contents of the relevant `shared/*.md` files into the `SKILL.md` before packaging, or upload `shared/` as an auxiliary skill.
+
+---
 
 ## Repository layout
 
