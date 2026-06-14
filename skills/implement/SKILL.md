@@ -61,6 +61,25 @@ ELSE
 6. Check NFRs in scope for this task
 7. Commit: `feat: Task N — name (satisfies AC ref)`
 
+### Failure handling
+
+On any failure during task execution:
+
+1. **Test failure** → Capture the exact error output → Auto-invoke /debug
+   - Do NOT re-implement without diagnosis
+   - The /debug skill performs isolate → hypothesize → verify
+2. **Build failure** → Parse the first error line → Check `debug/references/common-patterns.md`
+   - If pattern matches: apply known fix → re-run
+   - If no pattern matches: invoke /debug
+3. **Runtime error** → Capture stack trace + relevant logs → Invoke /debug
+4. **After ANY fix**: Write root cause to `docs/sdlc-engineer/learnings.jsonl`
+
+```json
+{"type": "root-cause", "date": "YYYY-MM-DD", "symptom": "...", "root-cause": "...", "fix": "...", "relevant-skills": ["implement"]}
+```
+
+**Gate:** Never attempt a second implementation without diagnosis. First failure → debug. Second failure → escalate to user.
+
 **After each task:**
 → review-spec subagent (input: task AC + git diff ONLY — no codebase context)
   - PASS → continue to code quality review

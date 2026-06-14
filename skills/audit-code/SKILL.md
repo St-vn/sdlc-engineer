@@ -48,6 +48,22 @@ const secureDecoded = jwt.decode(token, secretKey, 'HS256', false);
 * If a vulnerability is flagged, compile AST findings.
 * Run targeted dynamic validation scripts to verify if the vulnerability is reachable in the active execution path. If reachable, block the deployment pipeline and generate an automated patch PR.
 
+## Human Gate
+
+Operations in this skill auto-detect risk level:
+
+- **Low risk** (informational findings, warnings, non-blocking recommendations):
+  → Proceed without gate. Report findings on completion.
+
+- **Medium risk** (moderate vulnerabilities, misconfigurations, policy violations):
+  → Proceed with gate. Present findings to user. User can approve, deny, or modify scope.
+  → Timeout: 5 minutes. On timeout: proceed with documented exceptions.
+
+- **High risk** (critical vulnerabilities, credential exposure, compliance violations):
+  → STOP. Present findings with severity, impact, and recommended fix.
+  → User must explicitly approve or provide override rationale.
+  → Timeout: 10 minutes. On timeout: ABORT. Safe default is to not proceed.
+
 ## Anti-rationalization table
 | Common Excuse | Why It's Wrong | What to Do Instead |
 |---|---|---|
