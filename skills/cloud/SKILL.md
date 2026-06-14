@@ -7,6 +7,27 @@ description: Tier-calibrated cloud infrastructure, containerization, CI/CD, depl
 
 Tier-aware infrastructure orchestration. Selects the right patterns and tools for your maturity level without over-engineering.
 
+## Required tools
+
+Before running any phase, verify deterministic tools are installed:
+
+```powershell
+docker --version        # Containerization (required)
+terraform version       # IaC (MVP/scaling tier)
+pulumi version          # IaC alternative (MVP/scaling tier)
+trivy --version         # Security scanning (required if using Docker)
+
+# Or use the verify script
+.\skills\tooling\scripts\verify-tools.ps1
+```
+
+If any tool is missing, run:
+```powershell
+.\skills\tooling\scripts\install-tools.ps1 -Categories @("infra")
+```
+
+Do NOT proceed without required tools — all infrastructure operations depend on deterministic CLI output.
+
 ## Tier Detection
 
 Determine tier automatically (or ask user if unclear):

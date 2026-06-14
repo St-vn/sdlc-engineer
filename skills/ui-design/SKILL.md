@@ -14,6 +14,27 @@ A four-phase workflow for production-grade UI development. Every phase includes 
 - "design system for X"
 - Invoked by /implement for frontend tasks
 
+## Required tools
+
+Before running any phase, verify deterministic tools are installed:
+
+```powershell
+# Verify all frontend tools
+npx @playwright/test --version
+npx @axe-core/cli --version
+npx lhci --version
+
+# Or use the verify script
+.\skills\tooling\scripts\verify-tools.ps1
+```
+
+If any tool is missing, run:
+```powershell
+.\skills\tooling\scripts\install-tools.ps1 -Categories @("frontend")
+```
+
+Do NOT proceed without these tools — all phase gates depend on deterministic tool output.
+
 ## Phase 1: Design System Generation
 
 1. **Detect tech stack**: React/Vue/Svelte/Solid/vanilla — check package.json, ask user, or assume React

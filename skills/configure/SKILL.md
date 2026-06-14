@@ -57,6 +57,8 @@ Ask these in a single AskUserQuestion call where possible. Pre-populate defaults
 8. **Stack** (infer from package.json/Gemfile/pyproject.toml/go.mod if present; soft-confirm only):
    - Detected: [show detected stack]
    - Confirm or correct
+   - After stack is confirmed, consult `skills/tooling/references/stack-tool-matrix.md` for the required deterministic tools
+   - Add to output: `required-tools:` field listing every tool the stack needs
 
 ## Silent inference (never ask)
 
@@ -132,6 +134,15 @@ sub-skill-gates:
   arch-decompose: false
   deploy-observability: true
   deploy-rollback: false
+
+required-tools:
+  - "@playwright/test"
+  - "@axe-core/cli"
+  - "@lhci/cli"
+  - "docker"
+  - "trivy"
+  - "semgrep"
+  - "gitleaks"
 ```
 
 Write `~/.sdlc/user.yml` (local only, gitignored):

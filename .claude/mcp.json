@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "description": "Browser automation for debugging, screenshots, console, network, and performance analysis",
+      "command": "npx",
+      "args": ["-y", "@anthropic/chrome-devtools-mcp"],
+      "env": {}
+    },
+    "playwright": {
+      "description": "E2E testing, visual regression, and browser automation",
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp"]
+    }
+  }
+}

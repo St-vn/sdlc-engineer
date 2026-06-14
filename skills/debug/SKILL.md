@@ -7,6 +7,12 @@ description: 4-phase root cause debugging process. Triggers on "this test is fai
 
 Systematic debugging using a 4-phase root cause methodology. No guessing. No second implementation attempts without diagnosis.
 
+## Required tools
+
+```bash
+git --version   # git bisect for regression debugging (required)
+```
+
 ## Trigger phrases (auto-invoke from chat)
 
 - "this test is failing"

@@ -7,6 +7,26 @@ description: Main adversarial auditing orchestrator. Chains logic specification 
 
 This skill acts as the entrypoint for adversarial auditing. It schedules logical requirements checking on design specs and runs AST-based vulnerability scanning on the codebase.
 
+## Required tools
+
+Before running any audit phase, verify deterministic security tools are installed:
+
+```powershell
+semgrep --version       # SAST pattern matching (required)
+gitleaks --version      # Secret scanning (required)
+trivy --version         # CVE scanning (required)
+
+# Or use the verify script
+.\skills\tooling\scripts\verify-tools.ps1
+```
+
+If any tool is missing, run:
+```powershell
+.\skills\tooling\scripts\install-tools.ps1 -Categories @("security")
+```
+
+Do NOT proceed without these tools — audit gates depend on deterministic tool output.
+
 ## 1. Specification Logic Check
 * Runs `/audit-spec` against the specification files in `docs/sdlc-engineer/spec/` or `docs/sdlc-engineer/design/`.
 * Evaluates using Direct-Indirect Reasoning (DIR).

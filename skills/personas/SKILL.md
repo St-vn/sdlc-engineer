@@ -7,6 +7,21 @@ description: Pre-defined specialist agent personas for focused code review, test
 
 Activate pre-defined personas for focused analysis. Each persona constrains the agent to a specific role with targeted focus areas, constraints, and anti-rationalization rules.
 
+## Required tools by persona
+
+| Persona | Required tools | Verify command |
+|---------|---------------|---------------|
+| code-reviewer | git | `git --version` |
+| test-engineer | Playwright | `npx @playwright/test --version` |
+| security-auditor | Semgrep, Gitleaks, Trivy | `.\skills\tooling\scripts\verify-tools.ps1` |
+| ux-designer | axe-core, Lighthouse CI | `npx @axe-core/cli --version && npx lhci --version` |
+| performance-engineer | Lighthouse CI | `npx lhci --version` |
+
+Before activating any persona, verify its required tools exist. If missing, run:
+```powershell
+.\skills\tooling\scripts\install-tools.ps1
+```
+
 ## Usage
 
 ```
