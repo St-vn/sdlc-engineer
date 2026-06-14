@@ -4,9 +4,9 @@ A method-based expertise layer for the software development lifecycle. The plugi
 
 ## What this is for
 
-You bring an idea and a domain. The plugin brings the engineering judgment.
+You bring an idea and a domain. The plugin brings the engineering judgment — and the deterministic tools to make it verifiable.
 
-It handles the **forward-looking, constructive** half of the SDLC — eliciting what you actually want, analyzing feasibility, writing rigorous specs, designing architecture appropriate to your stage, breaking work into tasks, and orchestrating implementation with the right gates. It does *not* do adversarial review or pressure-testing — those are out of scope. Pair this plugin with a review-oriented one (gstack, superpowers, your own) when you want challenge alongside method.
+Covers the full SDLC: eliciting requirements, analyzing feasibility, writing specs, designing architecture, breaking into tasks, implementing with TDD, testing with deterministic tools (Playwright, axe-core, Lighthouse CI, Semgrep, Gitleaks, Trivy), cloud infrastructure orchestration, UI/UX with visual regression + a11y, and deploying with rollback plans. All methodology is backed by CLI tools and MCP servers — no LLM-generated imaginary test results.
 
 ## Who it's for
 
@@ -17,11 +17,11 @@ Anyone, but especially:
 
 ## Core principles
 
-1. **Method, not review.** Every command produces forward progress. Methodology compliance — INVEST, Gherkin, precise-metric NFRs, SRS semantic+packaging properties — is folded *into* the producers, not bolted on as separate audits. There is no `/audit` command; if you want one, install a review plugin alongside.
-2. **Maturity-tier aware.** A hackathon project gets a 3-page brief, not a 40-page SRS. A scaling startup gets a full requirements traceability matrix. Every command consults `shared/maturity-tier-detection.md` before deciding how much rigor is appropriate.
-3. **Anti-pattern detection runs everywhere.** Even when you didn't ask, the plugin will flag a Distributed Monolith forming, a "fast" NFR with no metric, a vague user story missing INVEST elements. The catalog (`shared/anti-pattern-catalog.md`) is active diagnostic content, not appendix material.
-4. **Educational annotations are present-but-skippable.** When the plugin enforces a discipline, it briefly explains why. For a senior engineer, the verbosity dials down automatically; for a non-technical user, the explanation is the point.
-5. **Composable.** This plugin is one method-based piece. It doesn't claim to do review, project management, code generation, or deployment automation — those compose in via other plugins.
+1. **Deterministic, not probabilistic.** Every skill has a Required Tools section. Every verification gate runs a real CLI command or MCP tool — not an LLM imagining what the output might be. If the tool isn't installed, the skill blocks and tells you to run `/tooling install`.
+2. **Maturity-tier aware.** A hackathon project gets a 3-page brief, not a 40-page SRS. A scaling startup gets full traceability. Every command consults `maturity-tier-detection.md` before deciding depth.
+3. **Anti-pattern detection runs everywhere.** Even when you didn't ask, the plugin flags Distributed Monolith forming, "fast" NFRs with no metric, vague stories missing INVEST. The anti-rationalization tables in every skill challenge the common excuses.
+4. **Educational annotations are present-but-skippable.** Methodology discipline is explained for novices, summarized for seniors. The educational layer dials verbosity based on jargon density.
+5. **Composable with platform bindings.** Abstract skills (`/ui-design`, `/cloud`, `/audit`) compose with platform-specific bindings (`/platforms/roblox`) that map methodology to concrete tools. Bring your own stack — the framework adapts.
 
 ## Slash commands
 
@@ -40,9 +40,17 @@ Anyone, but especially:
 | `/design` | Orchestrator. Chains use cases → components → sequence → ADRs → C4 diagrams. |
 | `/tasks` | TDD work breakdown structure: from spec+design to dependency-ordered tasks, each with a failing test and RED/GREEN confirmation commands. |
 | `/implement` | Orchestrator. Full implementation loop: pre-flight → research → task planning → per-task TDD execution → CI verification. |
-| `/audit` | **Orchestrator.** Adversarial spec and code auditing sequence: chains logic spec analysis → static code red-teaming checks. |
+| `/debug` | 4-phase root cause debugging. Establish ground truth → isolate → hypothesize → verify. Writes to learnings.jsonl for cross-session memory. |
+| `/modify` | Risk-calibrated code changes: Low (docs/config) → Medium (logic/UI with TDD) → High (auth/payments with human gate). |
+| `/doubt` | Doubt-driven development protocol: CLAIM → EXTRACT → DOUBT → RECONCILE → STOP. Adversarial self-review. |
+| `/ui-design` | 4-phase UI workflow: design system → accessible implementation → automated testing (Playwright/axe/LHCI) → review report. |
+| `/cloud` | 6-phase tier-aware infrastructure: architecture → IaC → containers → CI/CD → deploy → observability. |
+| `/personas` | 5 specialist agent personas: code-reviewer, test-engineer, security-auditor, ux-designer, performance-engineer. |
+| `/tooling` | Deterministic tool management: install, verify, profile-based setup, MCP server config. Stack-to-tools matrix. |
+| `/platforms` | Platform derivation framework. Bind abstract skills to concrete tools per platform (Roblox, web, etc.). |
+| `/audit` | **Orchestrator.** Adversarial spec and code auditing: logic contradiction → STRIDE threat model → SAST + secrets → DB security → compliance verification. |
 | `/pressure-test` | **Orchestrator.** Environmental stress validation: load generation (k6) → local container lifecycle & network degradation (Pumba/Toxiproxy). |
-| `/ship` | Orchestrator. Shipping sequence after implementation completes: security audit → QA → monitoring → benchmark → deploy → launch-readiness → doc sync. |
+| `/ship` | Orchestrator. Shipping sequence: security audit → QA → monitoring → benchmark → deploy → launch-readiness → doc sync. |
 
 ### Granular sub-commands (for power users; also work as refiners)
 
@@ -54,6 +62,7 @@ Anyone, but especially:
 | Auditing | `/audit-spec`, `/audit-code` |
 | Reliability | `/pressure-test-load`, `/pressure-test-chaos` |
 | Deployment | `/deploy-tier`, `/deploy-cicd`, `/deploy-observability`, `/deploy-secrets-audit`, `/deploy-release-check`, `/deploy-rollback` |
+| Platform | `/platforms/roblox` — Roblox-specific bindings for all abstract skills |
 
 Every granular command runs in two modes:
 - **Producer mode** — no prior input, generate from scratch.
@@ -65,15 +74,22 @@ Every granular command runs in two modes:
 
 To avoid "vibe coding" and establish procedural discipline, drive the agent using the sequential stages of the Software Development Lifecycle (SDLC):
 
-1. **Initialize**: Run `/configure` to define your stack, security tier, and compliance targets. This generates `.sdlc/project.yml`.
-2. **Research**: Run `/research` (or `/research-market`, `/research-tech`, or `/research-compliance` separately) to scan dependencies for CVEs, check regulations, and gather competitor details.
-3. **Specify**: Run `/spec` to generate Gherkin (Given-When-Then) Acceptance Criteria and precise Non-Functional Requirements (NFRs).
-4. **Design**: Run `/design` to generate system C4 diagrams, sequence diagrams, and ADRs.
-5. **Decompose**: Run `/tasks` to generate a failing-test-first TDD task checklist.
-6. **Implement**: Run `/implement` to automatically loop through task implementation, context-isolated subagent reviews, and testing.
-7. **Audit (Adversarial)**: Run `/audit` to verify specification logic consistency using DIR contradiction proofs and check for codebase vulnerabilities using custom Semgrep patterns.
-8. **Pressure Test**: Run `/pressure-test` to stress-test your system using k6 load generators under Pumba and Toxiproxy container/network failures.
-9. **Ship & Deploy**: Run `/ship` to run security audits, browser testing, monitor setups, and push code.
+1. **Initialize**: Run `/configure` to define your stack, security tier, and compliance targets. Generates `.sdlc/project.yml`.
+2. **Install tools**: Run `/tooling install` to install deterministic tools matching your stack. Verify with `/tooling verify`.
+3. **Research**: Run `/research` (or `/research-market`, `/research-tech`, `/research-compliance` separately) for CVE scans, regulations, competitors.
+4. **Specify**: Run `/spec` to generate Gherkin Acceptance Criteria and precise NFRs.
+5. **Design**: Run `/design` for C4 diagrams, sequence diagrams, ADRs.
+6. **Decompose**: Run `/tasks` for TDD task checklist with RED/GREEN per task.
+7. **Implement**: Run `/implement` for TDD loop with auto-debug on test failure.
+8. **Debug failing tests**: Run `/debug` (or auto-invoked by implement) for 4-phase root cause analysis.
+9. **Modify existing code**: Run `/modify` for risk-calibrated surgical changes.
+10. **Doubt your assumptions**: Run `/doubt` for CLAIM→EXTRACT→DOUBT→RECONCILE→STOP adversarial self-review.
+11. **Audit**: Run `/audit` for spec contradiction analysis + STRIDE threat model + SAST + DB + compliance.
+12. **Pressure Test**: Run `/pressure-test` for k6 load generation under Pumba/Toxiproxy chaos.
+13. **Ship**: Run `/ship` for security audit → QA → monitoring → benchmark → deploy → launch-readiness → doc sync.
+14. **UI/UX**: Run `/ui-design` for design systems, accessible implementation, automated testing (Playwright/axe/LHCI).
+15. **Cloud/Infra**: Run `/cloud` for tier-aware infrastructure, Docker, CI/CD, deploy, observability.
+16. **Agent personas**: Run `/personas <name>` for specialist review (code-reviewer, test-engineer, etc.).
 
 > [!TIP]
 > If you or the agent ever lose track of the workflow, run `/navigator` to open the interactive cheat sheet and behavioral guidelines.
@@ -129,36 +145,34 @@ Package each skill folder under `skills/` as a `.skill` file (zip the folder) an
 
 ```
 sdlc-engineer/
-├── README.md
-├── shared/                          ← cross-cutting reference content
-│   ├── maturity-tier-detection.md   ← detect hackathon/MVP/scaling, dial rigor
-│   ├── anti-pattern-catalog.md      ← active diagnostic content
-│   ├── cost-of-defect-model.md      ← 1×→200× repair cost; when to invest in rigor
-│   ├── decision-frameworks.md       ← Modular Monolith First, Conway's Law, MoSCoW, etc.
-│   └── educational-layer.md         ← verbosity dial, jargon detection, audience modes
-├── skills/                          ← one folder per skill, each with SKILL.md
-│   ├── configure/                   ← must-run-first project configuration
-│   ├── consult/
-│   ├── decide/
-│   ├── elicit/
-│   ├── analyze/
-│   ├── research/                    ← live pre-planning research (market/stack/compliance)
-│   ├── spec/
-│   ├── design/
-│   ├── tasks/                       ← TDD work breakdown structure
-│   ├── implement/                   ← full implementation orchestrator
-│   ├── ship/                        ← shipping orchestrator
-│   ├── req-*/                       ← requirements granular skills
-│   ├── arch-*/                      ← architecture granular skills
-│   └── deploy-*/                    ← deployment granular skills
-├── commands/                        ← slash command shortcuts (Claude Code)
-│   └── *.md
-└── .claude/
-    └── settings.json                ← Layer 0 hooks (SessionStart, PreToolUse, Stop)
+├── .claude-plugin/plugin.json       ← marketplace manifest (63 skills, 48 commands)
+├── .claude/mcp.json                 ← Chrome DevTools MCP + Playwright MCP
+├── .claude/settings.json            ← Layer 0 hooks (SessionStart, PreToolUse, Stop)
+├── .gitignore
+├── docs/sdlc-engineer/              ← 16 methodology reference files + plans
+│   ├── ui-ux-*-methodology.md       ← design system, a11y, tokens, testing
+│   ├── *-methodology.md             ← debugging, TDD, browser-testing, security, threat-modeling
+│   ├── *-best-practices.md          ← IaC, Docker, deployment strategies, CI/CD patterns
+│   ├── *-reference.md               ← OWASP, compliance, secrets, RLS, testing-frameworks
+│   └── plans/                       ← v1 + v2 plans and tool research
+├── skills/                          ← 65 skill directories
+│   ├── implement/ design/ spec/     ← orchestrators
+│   ├── audit/ pressure-test/ ship/  ← quality gates
+│   ├── deploy-*/ req-*/ arch-*/     ← granular skills
+│   ├── debug/ modify/ doubt/        ← methodology skills (v2)
+│   ├── ui-design/ cloud/            ← domain skills (v2)
+│   ├── personas/                    ← agent personas (v2)
+│   ├── tooling/                     ← deterministic tool management (v2)
+│   │   ├── scripts/                 ← install-tools.ps1, verify-tools.ps1
+│   │   └── references/              ← stack-tool-matrix.md, tool-inventory.md
+│   └── platforms/                   ← platform derivation (v2)
+│       ├── SKILL.md                 ← derivation framework
+│       └── roblox/                  ← Roblox Studio MCP + Luau binding
+└── skills/sdlc-foundation/          ← internal reference library
 ```
 
 ## Status
 
-**v1.1 — active development.** 29 skills and 26 slash commands. Added `/configure`, `/research`, `/ship`; rewrote `/tasks` and `/implement` as full orchestrators; added Layer 0 hooks (`SessionStart`, `PreToolUse`, `Stop`). See `CHANGELOG.md` for the full feature list.
+**v2.0.0 — deterministic engineering layer.** 63 skills, 48 slash commands. Added `/debug`, `/modify`, `/doubt`, `/ui-design`, `/cloud`, `/personas`, `/tooling`, `/platforms`; deterministic tooling with install/verify/MCP; 27 anti-rationalization tables across all skills; platform derivation framework with Roblox binding; auto-debug in `/implement`; security pipeline (STRIDE + SAST + DB + compliance) in `/audit`; human gates on high-risk operations. See `CHANGELOG.md` for the full list.
 
 Submit to the official marketplace at `platform.claude.com/plugins/submit` after replacing `your-github-username` in `.claude-plugin/plugin.json` and `README.md` with your actual GitHub username.

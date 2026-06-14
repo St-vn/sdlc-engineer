@@ -6,6 +6,54 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [2.0.0] — 2026-06-14
+
+### Added
+
+**Deterministic methodology skills**
+- `/debug` — 4-phase root cause debugging with anti-rationalization table and cross-session learnings.jsonl memory
+- `/modify` — risk-calibrated file modification workflow (Low/Medium/High with TDD for Medium+)
+- `/doubt` — doubt-driven development protocol (CLAIM → EXTRACT → DOUBT → RECONCILE → STOP)
+
+**Anti-rationalization tables** — 27 custom tables across every existing skill, domain-tailored with specific rebuttals
+
+**UI/UX Design**
+- `/ui-design` — 4-phase workflow (Design System Generation → Implementation with a11y → Automated Testing via Playwright/axe/LHCI → Review Report)
+- 4 reference files: design system, accessibility, design tokens, testing patterns
+- 2 scripts: visual-regression.ps1, a11y-audit.ps1
+
+**Cloud Infrastructure**
+- `/cloud` — 6-phase tier-aware orchestration (Architecture → IaC → Containerization → CI/CD → Deployment → Observability)
+- 3 reference files: IaC patterns, Docker patterns, deployment strategies
+
+**Specialist Agent Personas**
+- `/personas` — 5 specialist personas with yaml constraints: code-reviewer, test-engineer, security-auditor, ux-designer, performance-engineer
+
+**Deterministic Tooling Layer**
+- `/tooling` — install, verify, profile-based install from project.yml, MCP management
+- `.claude/mcp.json` — Chrome DevTools MCP + Playwright MCP servers
+- `stack-tool-matrix.md` — comprehensive stack-to-tools dependency map covering 6 categories across all major stacks
+- Pre-flight tool checks in all 5 new skills (block if tool missing)
+
+**Platform Derivation Framework**
+- `/platforms` — framework for mapping abstract skills to platform-specific tools
+- `platforms/roblox` — full Roblox binding: maps all 5 abstract skills to Roblox Studio MCP + Luau (zero CLI tools, 100% MCP-driven)
+
+**Integration Enhancements**
+- Auto-debug on test/build/runtime failure in `/implement`
+- Security pipeline (STRIDE threat modeling + SAST + DB + compliance) in `/audit`
+- Human gates on 4 high-risk skills (audit, audit-code, audit-spec, deploy-secrets-audit)
+
+**16 Methodology Reference Files** — covering UI/UX (4), cloud/infra (4), testing/debugging (4), security/compliance (4)
+
+**Plugin manifest updated** — v2.0.0 with 63 skills and 48 slash commands; new keywords for marketplace discoverability
+
+### Changed
+- `skills/audit/SKILL.md` — expanded from 2 phases to 6 phases (added STRIDE, SAST, secrets, database, compliance)
+- `skills/implement/SKILL.md` — added Failure Handling protocol with auto-debug invocation
+- `skills/debug/SKILL.md` — Phase 0→"Establish Ground Truth", added anti-rationalization table, reference links to methodology files
+- `skills/configure/SKILL.md` — added stack-to-tools mapping, required-tools field in project.yml output
+
 ## [1.0.0] — 2026-05-11
 
 ### Added
