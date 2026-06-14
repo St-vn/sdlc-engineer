@@ -66,3 +66,10 @@ Recommend next step: `/spec` to transform the raw backlog into INVEST stories wi
 ## Audience adaptation
 - Novice: ask one clarifying question at a time if the picture is unclear; explain why each classification matters; don't overwhelm with SE terminology
 - Senior: process the input efficiently; produce the output structure; ask only when genuinely ambiguous
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "I know what the user needs" | You are not the user. Assumptions are the #1 source of rework. | Ask structured questions. Document answers. Validate with stakeholders. |
+| "The requirements are in the ticket" | Tickets are summaries, not specifications. They hide context and tradeoffs. | Elicit: who, what, why, when, edge cases, failure modes. |
+| "We already discussed this" | Verbal agreements are not requirements. Memory is unreliable. | Write down every decision. Share with stakeholders. Confirm in writing. |

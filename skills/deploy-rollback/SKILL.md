@@ -115,3 +115,10 @@ Who must be notified: [engineering lead, product manager]
 5. Recommend adding rollback procedure to runbook; recommend `/deploy-release-check` if pre-release checklist hasn't been done
 
 After rollback strategy is documented: the deployment stack is complete. Confirm the full SDLC loop is closed (requirements → architecture → tasks → implementation → deployment → observability + rollback).
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "We'll figure out rollback if we need it" | During an incident is the worst time to figure out rollback. Stress, time pressure, incomplete docs. | Document rollback procedure before first deploy. Test it in staging. |
+| "Our deploy is reversible by re-deploying the old version" | That assumes the old version is available, the DB schema is compatible, and the rollback doesn't cause data loss. | Write a rollback plan that covers: code, DB, config, data, DNS. |
+| "Nothing has gone wrong before" | Past success does not predict future failure. Every deploy is a risk. | Have a rollback plan regardless of confidence. 1 page. 30 minutes. |

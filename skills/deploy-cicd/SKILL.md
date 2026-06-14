@@ -120,3 +120,10 @@ jobs:
 4. Produce the tier-appropriate pipeline YAML
 5. Annotate secrets that need to be configured (e.g., `DEPLOY_TOKEN`, `DATABASE_URL`) — these are the items for `/deploy-secrets-audit`
 6. Recommend next: `/deploy-observability` to define the monitoring layer.
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "I'll set up CI/CD later" | Without CI/CD, every deploy is manual and every manual deploy is an incident waiting to happen. | Set up CI/CD before the first production deploy. Even a basic pipeline. |
+| "Manual deploy to production is fine for now" | Manual deploys have no audit trail, no rollback automation, and no consistency. | Use GitHub Actions or equivalent. Push-button deploys only. |
+| "My project is too small for CI" | Small projects have the most to gain — CI catches the bugs that testing alone misses. | Add a 5-step CI pipeline: lint → typecheck → test → build → notify. |

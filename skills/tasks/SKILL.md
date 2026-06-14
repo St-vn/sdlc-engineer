@@ -114,3 +114,10 @@ This is enforced. Persuasion scenarios ("I already know what to implement", "the
 - File sets that overlap between tasks assigned to the same wave → move one to next wave
 - Implementation written before RED confirmed → flag as test integrity failure
 ```
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "I'll figure out the steps as I go" | Planning as you go misses dependencies, duplicates work, and forgets edge cases. | Break into tasks first. Each task has one clear RED test. |
+| "My tasks are small enough" | "Small enough" is subjective. If a task touches 3+ files, it's too large. | Split until each task touches 1-2 files and has a single behavioral change. |
+| "Task breakdown is overhead" | A 10-minute task plan is 1% overhead for a 2-day feature. It eliminates 50% of integration bugs. | Run /tasks. Read the output. Adjust if needed. Don't skip. |

@@ -44,3 +44,10 @@ If the user needs formal UML, note that PlantUML syntax is available on request.
 5. **Produce Mermaid** and a brief plain-language key explaining each actor and use case.
 
 Recommend next step: `/arch-components`.
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "We know who our users are" | Known users are rarely all users. Missing actors cause missing features. | List every actor explicitly. Include systems, admins, background jobs. |
+| "Use cases are just documentation" | Use cases define the system boundary. Without a boundary, scope creeps infinitely. | Draw the system boundary. Everything outside is not your problem. |
+| "Actors are obvious from the domain" | Obvious actors are still worth documenting. The intern needs to see them too. | Write actor descriptions. Stakeholder → goal → interaction. |

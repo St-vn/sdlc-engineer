@@ -84,3 +84,10 @@ These are harder to generalize — context matters heavily. Apply:
 ## Audience adaptation
 - Novice: explain each tradeoff in plain terms; lead with the recommendation, follow with the explanation; never present two options as equally valid if context makes one clearly better
 - Senior: terse option comparison, name the recommendation, note reversal cost; skip the framework definitions
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "We'll decide later" | Deferred decisions block implementation and accumulate as technical debt. | Make the smallest irreversible decision now. Document explicitly. |
+| "Either option works fine" | If both options work, you haven't identified the discriminators. Find the constraint that breaks one. | Map decision criteria. Weight them. Score options. |
+| "Let's ask everyone first" | Consensus-seeking without a proposal leads to endless bikeshedding. | Propose a recommendation first. Then solicit disagreement. |

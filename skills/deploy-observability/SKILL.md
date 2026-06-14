@@ -90,3 +90,10 @@ Full LGTM stack self-hosted (Kubernetes) or managed (Grafana Cloud):
 ```
 
 After plan: recommend `/deploy-release-check` for pre-release gate verification, and note that the observability infrastructure should be live and emitting before the first production deploy.
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "We'll add monitoring after launch" | Launch without monitoring is blind. You won't know something is broken until users tell you. | Add health checks + basic metrics before launch. Expand after. |
+| "Logs are enough for debugging" | Logs tell you what happened. Metrics tell you when it started trending wrong. Traces tell you where. | Set up the 3 pillars: logs + metrics + traces. Start with logs and uptime. |
+| "We can't afford observability tools" | Free tiers of Grafana/Loki/Prometheus handle most projects. The cost of downtime is higher. | Start with free tier. Upgrade when scaling demands it. |

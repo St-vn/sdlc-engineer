@@ -102,3 +102,10 @@ C4Component
 5. **Add a brief narrative** after each level: what the diagram shows, any architectural patterns visible in it (e.g., "the API is the only component that talks to the database — clean dependency direction"), any concerns
 
 After producing diagrams: recommend `/arch-adr` for any decisions that were implicit in the diagram choices (e.g., which database, which framework).
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "Diagrams get outdated immediately" | Outdated diagrams are still better than no diagrams. The structure rarely changes as fast as the code. | Keep the level 1-2 diagrams current. Update them when architecture changes. |
+| "I don't need a diagram, I understand the system" | Understanding in your head doesn't scale to the team. Diagrams communicate structure. | Draw the C4 level 1. If the team can't agree on it, the architecture is unclear. |
+| "C4 is overkill for this project" | C4 level 1 is one box with actors. It's never overkill. Level 2-3 is tier-dependent. | Draw the tier-appropriate depth. Hackathon = level 1 only. |

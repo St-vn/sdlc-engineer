@@ -67,3 +67,10 @@ Per `sdlc-foundation/anti-pattern-catalog.md`:
 - Services that all call each other synchronously → flag Chatty Microservices
 
 Recommend next step: `/arch-sequence` for the 2-3 most critical interaction flows.
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "We'll figure out the components as we build" | Emergent architecture without guardrails produces Big Ball of Mud. | Define component boundaries first. They can change, but they must be explicit. |
+| "Microservices will give us clean boundaries" | Microservices enforce network boundaries, not logical boundaries. You get Distributed Monolith instead. | Start modular monolith. Prove component boundaries before splitting. |
+| "Our components are already clean" | If interfaces aren't documented, they aren't clean. Undocumented interfaces drift into spaghetti. | Document every component's interface. If it has >5 dependencies, refactor. |

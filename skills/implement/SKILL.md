@@ -86,3 +86,11 @@ If context window approaching limit: trigger session-save before continuing
 → finish-branch subagent
   Pre-flight: all tasks complete + suite green + CI green + spec compliance PASS
   Presents 4 options: merge / PR / keep / discard
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "I'll write tests later" | Later never happens. Tests written after code confirm the implementation, not the requirements. | Write the failing test first (RED), then implement. |
+| "This is too simple to break down into tasks" | Every non-trivial change has hidden edge cases. Task breakdown reveals them. | Run /tasks first. If it produces 1 task, fine — but verify. |
+| "The task plan is too rigid, I'll improvise" | Improvisation skips the RED step, removing the only objective success criterion. | Follow the task plan. If it's wrong, fix the plan, not the execution. |
+| "I don't need pre-flight checks" | Missing project config or stale research causes silent correctness failures. | Run /implement's pre-flight. It takes 30 seconds. |

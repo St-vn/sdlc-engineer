@@ -128,3 +128,10 @@ Response:
 > Skip the formal SRS — at your stage the spec lives in the code and the YC narrative. Want to start with the NFRs?
 
 Notice the difference in length, jargon, and verbosity dial.
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "I already know what to do" | If you already know, you don't need consult. But consult checks for hidden complexity. | Let consult assess your maturity. If you're right, it's fast. If wrong, it saves you. |
+| "Just tell me the answer" | The answer depends on context (tier, team, constraints). Consult extracts that context. | Answer the questions. Get a calibrated recommendation. |
+| "I'll figure out the lifecycle stage myself" | SDLC stage determines everything: depth of spec, design rigor, testing scope. Get it wrong = wrong output. | Let Consult determine the stage. It's what it's for. |

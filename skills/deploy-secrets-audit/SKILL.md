@@ -122,3 +122,10 @@ git push --force
 ```
 
 After audit: recommend `/deploy-cicd` if pipeline wasn't already set up, to add secrets scanning as a CI gate.
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "I don't have secrets in my code" | Everyone says this. Secrets end up in code: hardcoded keys, .env files committed, config in git. | Run secrets audit. You'll be surprised. |
+| "The repo is private, it's fine" | Private repos get compromised too. CI logs, dependency caches, and collaborator accounts leak secrets. | Use environment variables. Never commit secrets. Rotate if compromised. |
+| "I'll remove the secret later" | Once in git history, it's there forever — even after removal. | Use git history scanning (gitleaks, truffleHog). Rotate immediately. |

@@ -157,3 +157,10 @@ After writing both files:
 ## Hard gate
 
 If this skill is invoked by another skill's pre-flight check (not directly by the user), surface the warning and halt: "No .sdlc/project.yml found. Run /configure before continuing."
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "Defaults are fine for now" | Defaults don't know your security tier, compliance needs, or deployment target. | Answer the configure questions. It takes 2 minutes. |
+| "I'll configure later when I need it" | Later-configuring a project meant for production is re-engineering, not setup. | Configure before writing code. The config gates all downstream skills. |
+| "I know what my maturity tier is" | Then the configure questions will take 10 seconds. Skipping config means no skill gates work. | Run /configure. Confirm the tier. Move on. |

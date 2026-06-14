@@ -102,3 +102,10 @@ That's it. Ship it.
 2. Produce the tier-appropriate checklist as a markdown checklist the user can paste into a PR, Notion, or Linear
 3. Flag any items that look pre-failed based on context (e.g., "you mentioned you haven't tested on staging — that's on the checklist")
 4. After producing: recommend `/deploy-rollback` to ensure the rollback strategy is explicit before shipping
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "We'll check everything during the deploy" | During-deploy checking is rushed, incomplete, and stressful. You'll miss things. | Run the checklist before the deploy window. Fix issues before Go time. |
+| "The checklist is too long" | A long checklist means too many things can go wrong. Shorten it by automating checks. | Move automated checks to CI. Keep the checklist for things only humans can verify. |
+| "We deployed last time without issues" | Last time's success doesn't tell you about this time's changes. Different code, different risks. | Run the full checklist every time. No exceptions. |

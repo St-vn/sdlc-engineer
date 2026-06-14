@@ -69,3 +69,10 @@ Recommend next step: `/spec` if scope is confirmed, or back to `/elicit` if majo
 ## Audience adaptation
 - Novice: explain the RAG system, give context for why each risk matters, make the scope recommendation strongly and explain why
 - Senior: table-format output, terse justifications, ask only for information genuinely missing
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "We don't have time for analysis" | Unanalysed projects fail 3x more often. Analysis is time invested, not spent. | Run a lightweight feasibility check. 30 minutes saves days. |
+| "Analysis is just speculation" | Structured analysis maps dependencies, risks, and tradeoffs. Speculation is guessing without structure. | Use the dependency map and risk register templates. Tangible output. |
+| "We already know the tradeoffs" | Known tradeoffs are rarely documented, so they're forgotten under pressure. | Write tradeoff analysis. Refer back during implementation. |

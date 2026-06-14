@@ -161,3 +161,10 @@ Response:
 > Next: `/design` for the architecture-level audit (will spot Distributed Monolith risks if any). Or `/decide` if you have specific open architectural questions ahead of the audit.
 
 Notice how the senior-mode response is denser, skips definitions, and assumes the user knows what SOC 2 CC6/CC7 are.
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "I already know what to build" | Writing it down reveals hidden assumptions and missing stakeholders. | Write user stories. INVEST-check them. Then start coding. |
+| "Requirements will change anyway, why document?" | Changing documented requirements is traceable. Changing undocumented assumptions is chaos. | Document current understanding. Update when things change. |
+| "This is obvious, it doesn't need acceptance criteria" | "Obvious" means different things to different people. ACs are the definition of done. | Write Given-When-Then for every story. |

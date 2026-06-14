@@ -47,3 +47,10 @@ const secureDecoded = jwt.decode(token, secretKey, 'HS256', false);
 ## Validation Gating
 * If a vulnerability is flagged, compile AST findings.
 * Run targeted dynamic validation scripts to verify if the vulnerability is reachable in the active execution path. If reachable, block the deployment pipeline and generate an automated patch PR.
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "No Semgrep findings means no bugs" | Static analysis finds patterns, not logic errors. No findings ≠ correct code. | Review the logic, not just the tool output. |
+| "I'll fix the critical findings and ignore the rest" | Warnings are warnings for a reason. They accumulate into technical debt. | Triage every finding. Document why ignored findings are safe. |
+| "The code passes review, it's fine" | Code review catches style and obvious bugs. Static analysis catches subtle injection paths. | Run audit-code even after human review. Different coverage. |

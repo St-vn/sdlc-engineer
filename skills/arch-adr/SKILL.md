@@ -85,3 +85,10 @@ When the user makes these choices during a session without documenting them, off
 - Cloud provider and deployment target
 - Testing strategy and coverage thresholds
 - API design style (REST vs GraphQL vs gRPC)
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "This decision is obvious, no need for an ADR" | "Obvious" decisions are the most dangerous — they're never questioned. | Write a one-paragraph ADR. If it's obvious, it takes 2 minutes. |
+| "We'll write ADRs later" | Later means never. The context is lost, the decision-maker has moved on. | Write the ADR when the decision is made. Fresh context. |
+| "ADRs are bureaucratic overhead" | ADRs are insurance against the question "why did we do this?" that every team asks 6 months later. | One ADR per decision. Template: Context → Options → Decision → Consequences. |

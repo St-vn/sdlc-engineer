@@ -69,3 +69,10 @@ Key syntax:
 Accompany each diagram with: what it shows, what the critical failure modes are, and how the design handles them.
 
 Recommend next step: `/arch-adr` to record the decisions made while drawing these flows.
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "The happy path is all that matters" | The happy path never happens in production. Error paths and edge cases cause incidents. | Draw 3 sequence diagrams: happy path, error path, edge case. |
+| "Sequence diagrams are too detailed for early design" | Sequence diagrams force you to think about ordering, which is where most bugs live. | Focus on the 2-3 most architecturally risky flows. Not every flow. |
+| "I can visualize the flow without drawing it" | Visualization in your head has no shared language. The team can't discuss it. | Draw it in Mermaid. 10 minutes. Everyone can see and critique. |

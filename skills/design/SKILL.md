@@ -63,3 +63,10 @@ Summary of the architecture: what pattern was chosen, what ADRs were produced, w
 ## Audience adaptation
 - Novice: explain each architectural concept as it's introduced (what is a component? what is a service boundary?); recommend defaults rather than asking the user to choose between patterns they don't know
 - Senior: efficient sequence with terse rationale; ADRs for non-obvious decisions; skip concept explanations
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "It's a simple feature, we don't need architecture" | Complexity compounds. The 10th "simple feature" creates an unmaintainable mess. | Draw a component diagram anyway. 5 minutes saves 5 hours. |
+| "We'll refactor later" | Refactoring without architectural context is shuffling deck chairs. | Document the architecture intent now. Refactor against it later. |
+| "Microservices will solve this" | Microservices before monolith is premature distribution. You don't know the boundaries yet. | Start modular monolith. Extract only when boundaries are proven. |

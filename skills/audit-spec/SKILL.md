@@ -39,3 +39,10 @@ Write a JSON payload containing the scorecard:
 }
 ```
 If the specification passes validation, save it as verified. If it fails, report gaps to the developer and block code implementation.
+
+## Anti-rationalization table
+| Common Excuse | Why It's Wrong | What to Do Instead |
+|---|---|---|
+| "The requirements make sense to me" | Making sense individually doesn't mean they're consistent collectively. | Run contradiction analysis across all requirements. |
+| "This edge case doesn't need a requirement" | Undocumented edge cases are unimplemented edge cases. They will fail in production. | If it's a real state, it needs a defined behavior. Document it. |
+| "The spec is complete enough" | "Enough" is a rationalization for skipping rigor. Every missing state is a potential incident. | Check every state transition. If unhandled, add a requirement. |
